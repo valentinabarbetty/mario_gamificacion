@@ -35,6 +35,9 @@ class Level1(tools._State):
         self.flag_timer = 0
         self.flag_score = None
         self.flag_score_total = 0
+        
+        # Flag para controlar si la tecla X ya fue presionada
+        self.popup_x_key_pressed = False
 
         self.moving_score_list = []
         self.overhead_info_display = info.OverheadInfo(self.game_info, c.LEVEL)
@@ -212,24 +215,29 @@ class Level1(tools._State):
     def setup_coin_boxes(self):
         """Creates all the coin boxes and puts them in a sprite group"""
         coin_box1  = coin_box.Coin_box(685, 365, c.COIN, self.coin_group)
-        coin_box2  = coin_box.Coin_box(901, 365, c.MUSHROOM, self.powerup_group)
+        coin_box2  = coin_box.Coin_box(901, 365, c.FIREFLOWER, self.powerup_group)
         coin_box3  = coin_box.Coin_box(987, 365, c.COIN, self.coin_group)
         coin_box4  = coin_box.Coin_box(943, 193, c.COIN, self.coin_group)
         coin_box5  = coin_box.Coin_box(3342, 365, c.MUSHROOM, self.powerup_group)
         coin_box6  = coin_box.Coin_box(4030, 193, c.COIN, self.coin_group)
-        coin_box7  = coin_box.Coin_box(4544, 365, c.COIN, self.coin_group)
+        coin_box7  = coin_box.Coin_box(4544, 365, c.FIREFLOWER, self.powerup_group)
         coin_box8  = coin_box.Coin_box(4672, 365, c.COIN, self.coin_group)
         coin_box9  = coin_box.Coin_box(4672, 193, c.MUSHROOM, self.powerup_group)
         coin_box10 = coin_box.Coin_box(4800, 365, c.COIN, self.coin_group)
-        coin_box11 = coin_box.Coin_box(5531, 193, c.COIN, self.coin_group)
+        coin_box11 = coin_box.Coin_box(5531, 193, c.FIREFLOWER, self.powerup_group)
         coin_box12 = coin_box.Coin_box(7288, 365, c.COIN, self.coin_group)
+        coin_box13 = coin_box.Coin_box(7374, 365, c.COIN, self.coin_group)
+        coin_box14 = coin_box.Coin_box(7460, 365, c.FIREFLOWER, self.powerup_group)
+        coin_box15 = coin_box.Coin_box(7560, 193, c.COIN, self.coin_group)
 
         self.coin_box_group = pg.sprite.Group(coin_box1,  coin_box2,
                                               coin_box3,  coin_box4,
                                               coin_box5,  coin_box6,
                                               coin_box7,  coin_box8,
                                               coin_box9,  coin_box10,
-                                              coin_box11, coin_box12)
+                                              coin_box11, coin_box12,
+                                              coin_box13, coin_box14,
+                                              coin_box15)
 
 
     def setup_flag_pole(self):
@@ -380,14 +388,19 @@ class Level1(tools._State):
             if const.REQUEST_POPUP_TEXT:
                 self.popup.show(const.REQUEST_POPUP_TEXT)
                 const.REQUEST_POPUP_TEXT = None
+                self.popup_x_key_pressed = False  # Reinicia el flag
 
 
             # Esperar tecla X para cerrar popup
-            if keys[pg.K_x]:
+            if keys[pg.K_x] and not self.popup_x_key_pressed:
                 print("❌ CERRANDO POPUP")
                 const.POPUP_ACTIVE = False
                 const.DIAPOSITIVA_INDEX += 1
                 self.popup.hide()
+                self.popup_x_key_pressed = True
+            elif not keys[pg.K_x]:
+                # Reinicia el flag cuando sueltas la tecla
+                self.popup_x_key_pressed = False
 
             return  # 🔥 Detener TODO lo demás en este frame
 

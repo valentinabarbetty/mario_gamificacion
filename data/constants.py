@@ -175,8 +175,21 @@ REQUEST_POPUP_TEXT = None
 DIAPOSITIVA_INDEX = 0
 
 DIAPOSITIVAS = [
+    "data/diapositivas/1.png",
+    "data/diapositivas/2.png",
     "data/diapositivas/3.png",
     "data/diapositivas/4.png",
+    "data/diapositivas/5.png",
+    "data/diapositivas/6.png",
+    "data/diapositivas/7.png",
+    "data/diapositivas/8.png",
+    "data/diapositivas/9.png",
+    "data/diapositivas/10.png",
+    "data/diapositivas/11.png",
+    "data/diapositivas/12.png",
+    "data/diapositivas/13.png",
+    "data/diapositivas/14.png",
+    "data/diapositivas/15.png",
 ]
 
 
