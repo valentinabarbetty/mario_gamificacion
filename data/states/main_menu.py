@@ -54,16 +54,23 @@ class Menu(tools._State):
         """Setup the background image to blit"""
         self.background = setup.GFX['level_1']
         self.background_rect = self.background.get_rect()
-        self.background = pg.transform.scale(self.background,
-                                   (int(self.background_rect.width*c.BACKGROUND_MULTIPLER),
-                                    int(self.background_rect.height*c.BACKGROUND_MULTIPLER)))
+        self.background = pg.transform.scale(
+            self.background,
+            (int(self.background_rect.width * c.BACKGROUND_MULTIPLER),
+            int(self.background_rect.height * c.BACKGROUND_MULTIPLER))
+        )
         self.viewport = setup.SCREEN.get_rect(bottom=setup.SCREEN_RECT.bottom)
 
         self.image_dict = {}
-        self.image_dict['GAME_NAME_BOX'] = self.get_image(
-            1, 60, 176, 88, (170, 100), setup.GFX['title_screen'])
 
+        # Fuentes estilo arcade (un poco más grandes)
+        self.title_font = pg.font.Font(None, 80)
+        self.subtitle_font = pg.font.Font(None, 40)
+        self.text_font = pg.font.Font(None, 28)
+        self.small_font = pg.font.Font(None, 24)
 
+        # Banner tipo caja de título (estilo Mario, rectángulo oscuro con borde blanco)
+        self.banner_rect = pg.Rect(40, 90, 720, 210)
 
     def get_image(self, x, y, width, height, dest, sprite_sheet):
         """Returns images and rects to blit onto the screen"""
@@ -87,7 +94,6 @@ class Menu(tools._State):
         rect.y = dest[1]
         return (image, rect)
 
-
     def update(self, surface, keys, current_time):
         """Updates the state every refresh"""
         self.current_time = current_time
@@ -95,13 +101,57 @@ class Menu(tools._State):
         self.update_cursor(keys)
         self.overhead_info.update(self.game_info)
 
+        # Fondo original
         surface.blit(self.background, self.viewport, self.viewport)
-        surface.blit(self.image_dict['GAME_NAME_BOX'][0],
-                     self.image_dict['GAME_NAME_BOX'][1])
+
+        # ---------- BANNER PRINCIPAL ----------
+        # Caja oscura estilo NES con borde blanco
+        pg.draw.rect(surface, (10, 10, 40), self.banner_rect)        # relleno
+        pg.draw.rect(surface, c.WHITE, self.banner_rect, 4)          # borde
+
+        center_x = self.banner_rect.centerx
+
+        # ---------- TÍTULO "JUEGOS SERIOS" CON SOMBRA ----------
+        title_y = self.banner_rect.y + 30
+        # Sombra
+        title_shadow = self.title_font.render("JUEGOS SERIOS", True, c.NEAR_BLACK)
+        shadow_rect = title_shadow.get_rect(center=(center_x + 4, title_y + 4))
+        surface.blit(title_shadow, shadow_rect)
+
+        # Texto principal dorado
+        title_text = self.title_font.render("JUEGOS SERIOS", True, c.GOLD)
+        title_rect = title_text.get_rect(center=(center_x, title_y))
+        surface.blit(title_text, title_rect)
+
+        # ---------- SUBTÍTULO ----------
+        subtitle_y = title_rect.bottom + 10
+        subtitle_text = self.subtitle_font.render("INTRODUCCIÓN A LA GAMIFICACIÓN", True, c.SKY_BLUE)
+        subtitle_rect = subtitle_text.get_rect(center=(center_x, subtitle_y))
+        surface.blit(subtitle_text, subtitle_rect)
+
+        # ---------- DETALLES DE CURSO / UNIVERSIDAD ----------
+        detail_y = subtitle_rect.bottom + 15
+        detail_text = self.text_font.render("Universidad del Valle", True, c.WHITE)
+        detail_rect = detail_text.get_rect(center=(center_x, detail_y))
+        surface.blit(detail_text, detail_rect)
+
+        detail2_y = detail_rect.bottom + 5
+        detail2_text = self.small_font.render("----", True, c.WHITE)
+        detail2_rect = detail2_text.get_rect(center=(center_x, detail2_y))
+        surface.blit(detail2_text, detail2_rect)
+
+        # ---------- TEXTO PARPADEANTE TIPO 'PRESS START' ----------
+        blink_y = self.banner_rect.bottom - 30
+        # Parpadeo sencillo cada ~0.4 s (current_time va en milisegundos en este proyecto)
+        if (self.current_time // 400) % 2 == 0:
+            blink_text = self.small_font.render("PRESIONA A / ENTER PARA EMPEZAR", True, c.GOLD)
+            blink_rect = blink_text.get_rect(center=(center_x, blink_y))
+            surface.blit(blink_text, blink_rect)
+
+        # ---------- MARIO, CURSOR Y HUD SUPERIOR ----------
         surface.blit(self.mario.image, self.mario.rect)
         surface.blit(self.cursor.image, self.cursor.rect)
         self.overhead_info.draw(surface)
-
 
     def update_cursor(self, keys):
         """Update the position of the cursor"""

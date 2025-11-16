@@ -124,17 +124,44 @@ class Coin_box(pg.sprite.Sprite):
         self.image = self.frames[self.frame_index]
 
 
+    # def start_bump(self, score_group):
+    #     """Transitions box into BUMPED state"""
+    #     self.y_vel = -6
+    #     self.state = c.BUMPED
+    #     print("💥 BUMP DETECTADO — PROBANDO POPUP")
+
+
+    #     if self.contents == 'coin':
+    #         self.group.add(coin.Coin(self.rect.centerx,
+    #                                 self.rect.y,
+    #                                 score_group))
+    #         setup.SFX['coin'].play()
+    #     else:
+    #         setup.SFX['powerup_appears'].play()
+
+    #     # --- Activar solicitud de popup ---
+    #     import data.constants as const
+
+    #     if const.DIAPOSITIVA_INDEX < len(const.DIAPOSITIVAS):
+    #         const.POPUP_ACTIVE = True
+    #         const.REQUEST_POPUP_TEXT = const.DIAPOSITIVAS[const.DIAPOSITIVA_INDEX]
+
+
+
+    #     def opened(self):
+    #         """Placeholder for OPENED state"""
+    #         pass
+
     def start_bump(self, score_group):
         """Transitions box into BUMPED state"""
         self.y_vel = -6
         self.state = c.BUMPED
         print("💥 BUMP DETECTADO — PROBANDO POPUP")
 
-
         if self.contents == 'coin':
             self.group.add(coin.Coin(self.rect.centerx,
-                                    self.rect.y,
-                                    score_group))
+                                     self.rect.y,
+                                     score_group))
             setup.SFX['coin'].play()
         else:
             setup.SFX['powerup_appears'].play()
@@ -145,13 +172,6 @@ class Coin_box(pg.sprite.Sprite):
         if const.DIAPOSITIVA_INDEX < len(const.DIAPOSITIVAS):
             const.POPUP_ACTIVE = True
             const.REQUEST_POPUP_TEXT = const.DIAPOSITIVAS[const.DIAPOSITIVA_INDEX]
-
-
-
-        def opened(self):
-            """Placeholder for OPENED state"""
-            pass
-
 
 
 
