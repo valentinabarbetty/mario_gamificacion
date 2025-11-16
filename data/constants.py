@@ -5,7 +5,7 @@ SCREEN_WIDTH = 800
 
 SCREEN_SIZE = (SCREEN_WIDTH,SCREEN_HEIGHT)
 
-ORIGINAL_CAPTION = "Super Mario Bros 1-1"
+ORIGINAL_CAPTION = "Juegos Serios - Introducción a la Gamificación"
 
 ## COLORS ##
 
