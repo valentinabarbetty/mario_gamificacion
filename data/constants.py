@@ -176,12 +176,9 @@ DIAPOSITIVA_INDEX = 0
 
 DIAPOSITIVAS = [
     "data/diapositivas/1.png",
-    "data/diapositivas/2.png",
-    "data/diapositivas/3.png",
-    "data/diapositivas/4.png",
-    "data/diapositivas/5.png",
-    "data/diapositivas/6.png",
-    "data/diapositivas/7.png",
+    "data/diapositivas/2.jpg",
+    "data/diapositivas/3.jpg",
+    "data/diapositivas/4.jpg",
     "data/diapositivas/8.png",
     "data/diapositivas/9.png",
     "data/diapositivas/10.png",
